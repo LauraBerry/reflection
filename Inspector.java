@@ -40,7 +40,7 @@ public class Inspector
 		//name of declaring class
 		Class className=obj.getClass();
 		//name of immediate superclass
-		Class superClassName=className.getSuperClass();
+		Class superClassName=className.getSuperclass();
 		//method the class declares
 		Method[] methodArray=className.getMethods();
 			//exception thrown
