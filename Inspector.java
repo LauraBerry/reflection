@@ -6,35 +6,6 @@ import java.util.*;
 
 public class Inspector 
 {
-	public static void main(String[] args)
-	{
-		Object object = null;
-		Class classObject=null;
-		try
-		{
-			//load the class dynamically using 1st command-line arg
-			classObject= Class.forName (args[0]);
-			//create an instance of the class
-			object = classObject.newInstance();
-			//inspect(object, true); //Laura
-		}
-		catch (InstantiationException e)
-		{
-			System.out.println(e);
-			return;
-		}
-		catch (IllegalAccessException e)
-		{
-			System.out.print(e);
-			return;
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.print(e);
-			return;
-		}
-
-	}
 	public void inspect(Object obj, boolean recursive)
 	{
 		//name of declaring class
@@ -48,7 +19,7 @@ public class Inspector
 		output(className);	
 		
 		//method the class declares
-		Method[] methodArray=className.getMethods();
+		Method[] methodArray=className.getDeclaredMethods();
 		analizeMethods(methodArray);
 		
 		//constructors the class declares
@@ -64,7 +35,7 @@ public class Inspector
 	{
 		for (int i=0; i<a.length; i++)
 		{
-			System.out.print(i);
+			System.out.print(i+1);
 			System.out.print(") Field Name: ");
 			String fieldName=a[i].toString();
 			System.out.println(fieldName);
@@ -73,13 +44,15 @@ public class Inspector
 			System.out.print("	Field Type: ");
 			output(fieldType);
 			//modifiers	
+			int mods=a[i].getModifiers();
+			//Laura this also needs more work.
 		}
 	}
 	public void analizeMethods(Method[] a)
 	{
 		for (int i=0; i<a.length; i++)
 		{	
-			System.out.print(i);
+			System.out.print(i+1);
 			System.out.println(") Method name");
 			String methodName = a[i].toString();
 			System.out.println (methodName);
@@ -104,13 +77,20 @@ public class Inspector
 	
 	public void printArray (Class[] a)
 	{
-		System.out.print("( ");
-		for(int i=0; i<a.length; i++)
+		if(a.length==0)
 		{
-			System.out.print(a[i]);
-			System.out.print(", ");
+			System.out.println("none");
 		}
-		System.out.println(" )");
+		else
+		{
+			System.out.print("( ");
+			for(int i=0; i<a.length; i++)
+			{
+				System.out.print(a[i]);
+				System.out.print(", ");
+			}
+			System.out.println(" )");
+		}
 		return;
 	}
 	
