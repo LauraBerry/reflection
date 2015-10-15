@@ -5,6 +5,7 @@ public class methodAnalysis extends Inspector
 {		
 	public void analizeMethods(Method[] a)
 	{	
+		Class[] temp;
 		System.out.println("Methods");	
 		if(a.length==0)
 		{
@@ -19,13 +20,13 @@ public class methodAnalysis extends Inspector
 				String methodName = a[i].toString();
 				System.out.println (methodName);
 				//exception thrown
-				Class[] exceptions = a[i].getExceptionTypes();
+				temp=getTheExceptions(a[i]);
 				System.out.print("		exceptions thrown: ");
-				printArray(exceptions);
+				printArray(temp);
 				//parameter types
-				Class [] params = a[i].getParameterTypes();
+				temp=getTheParameters(a[i]);
 				System.out.print("		parameter types: ");
-				printArray(params);
+				printArray(temp);
 				//return types
 				Class whatIsReturned = a[i].getReturnType();
 				System.out.print("		Return type: ");
@@ -37,5 +38,15 @@ public class methodAnalysis extends Inspector
 			}
 		}
 		return;
+	}
+	public Class[] getTheExceptions(Method a)
+	{
+		Class[] result = a.getExceptionTypes();
+		return result;
+	}
+	public Class[] getTheParameters(Method a)
+	{
+		Class [] result = a.getParameterTypes();
+		return result;
 	}
 }
