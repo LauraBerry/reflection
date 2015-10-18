@@ -17,50 +17,25 @@ public class Inspector
 		//name of immediate superclass
 		Class superClassName=className.getSuperclass();
 		System.out.print ("Super Class name: ");
-		output(superClassName);
+		output(superClassName);//Laura it is not printing the right thing, it says "java.lang.object"
 		System.out.println("");
 		
 		//method the class declares
 		Method[] methodArray=className.getDeclaredMethods();
-		methodAnalysis meth= new methodAnalysis();
-		meth.analizeMethods(methodArray);
+		Analysis forAnalysis= new methodAnalysis();
+		forAnalysis.analizeMethods(methodArray);
 		
 		//constructors the class declares
-			//parameter types
-			//modifiers
+		Constructor[] construct = className.getDeclaredConstructors();
+		forAnalysis.analizeConstructor(construct);
+
 			
 		//fileds the class declares
 		Field[] fields= className.getDeclaredFields();
-		System.out.println("Fields");
-		analizeFields(fields);
+		forAnalysis.analizeFields(fields);
 
 	}
-	public void analizeFields(Field[] a)
-	{
-		if(a.length==0)
-		{
-			System.out.println("		none");
-		}
-		else
-		{
-			for (int i=0; i<a.length; i++)
-			{
-				System.out.print(i+1);
-				System.out.print(")\n 	Field Name: ");
-				String fieldName=a[i].toString();
-				System.out.println(fieldName);
-				//types
-				Class fieldType=a[i].getType();
-				System.out.print("		Field Type: ");
-				output(fieldType);
-				//modifiers	
-				int mods=a[i].getModifiers();
-				//Laura this also needs more work.
-			}
-		}
-		return;
-	}
-	
+
 	public void printArray (Class[] a)
 	{
 		if(a.length==0)
