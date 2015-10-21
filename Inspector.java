@@ -21,21 +21,18 @@ public class Inspector
 		System.out.println("");
 		
 		Class[] interfaces = className.getInterfaces();
-		analizeInterfaces(interfaces);
 		
 		//method the class declares
 		Method[] methodArray=className.getDeclaredMethods();
-		analizeMethods(methodArray);
 		
 		//constructors the class declares
 		Constructor[] construct = className.getDeclaredConstructors();
-		analizeConstructor(construct);
 
 			
 		//fileds the class declares
 		Field[] fields= className.getDeclaredFields();
-		analizeFields(fields, className);
 		
+		Analize(interfaces,methodArray, construct, fields, className);
 		//traverse the class hierarchy 
 		if (recursive==true && (superClassName!=null&&superClassName.getName()!="java.lang.Object"))
 		{
@@ -54,7 +51,7 @@ public class Inspector
 
 	}
 
-	public void analizeInterfaces(Class[] a)
+	public void Analize(Class[] a, Method[] b, Constructor[] d, Field[] c, Class e)
 	{
 		Class[] temp;
 		System.out.println("Interfacess");	
@@ -72,80 +69,96 @@ public class Inspector
 				System.out.println (interfaceName);	
 			}
 		}
-		return;
-	}
-	
-	public void analizeMethods(Method[] a)
-	{	
-		Class[] temp;
+
 		System.out.println("Methods");	
-		if(a.length==0)
+		if(b.length==0)
 		{
 			System.out.println("		none");
 		}
 		else
 		{
-			for (int i=0; i<a.length; i++)
+			for (int i=0; i<b.length; i++)
 			{	
 				System.out.print(i+1);
 				System.out.print(")\n	 Method name: ");
-				String methodName = a[i].toString();
+				String methodName = b[i].toString();
 				System.out.println (methodName);
 				//exception thrown
-				temp = a[i].getExceptionTypes();
+				temp = b[i].getExceptionTypes();
 				System.out.print("		exceptions thrown: ");
 				printArray(temp);
 				//parameter types
-				temp=a[i].getParameterTypes();
+				temp=b[i].getParameterTypes();
 				System.out.print("		parameter types: ");
 				printArray(temp);
 				//return types
-				Class whatIsReturned = a[i].getReturnType();
+				Class whatIsReturned = b[i].getReturnType();
 				System.out.print("		Return type: ");
 				output(whatIsReturned);
 				//modifiers
-				int modifiers= a[i].getModifiers();
+				int modifiers= b[i].getModifiers();
 				System.out.print("		Modifier: ");
 				String mods = Modifier.toString(modifiers);
 				System.out.println(mods);
 				//it's currently giving an integer, the int needs to be decoded and analized
 			}
 		}
-		return;
-	}	
-	
-	public void analizeFields(Field[] a, Class b)
-	{
+
 		System.out.println("Fields");
-		if(a.length==0)
+		if(c.length==0)
 		{
 			System.out.println("		none");
 		}
 		else
 		{
-			for (int i=0; i<a.length; i++)
+			for (int i=0; i<c.length; i++)
 			{
 				System.out.print(i+1);
 				System.out.print(")\n 	Field Name: ");
-				String fieldName=a[i].toString();
+				String fieldName=c[i].toString();
 				System.out.println(fieldName);
 				//types
-				Class fieldType=a[i].getType();
+				Class fieldType=c[i].getType();
 				System.out.print("		Field Type: ");
 				output(fieldType);
 				//value
-				Object value=getvalue(a[i],b);
+				Object value=getvalue(c[i],e);
 				System.out.print("		Field value: ");
 				String fieldValName=String.valueOf(value);
 				System.out.println(fieldValName);
 				//modifiers	
-				int modifiers=a[i].getModifiers();
+				int modifiers=c[i].getModifiers();
 				System.out.print("		Modifier: ");
 				String mods = Modifier.toString(modifiers);
 				System.out.println(mods);
 			}
 		}
-		return;
+		System.out.println("Constructors");	
+		if(d.length==0)
+		{
+			System.out.println("		none");
+		}
+		else
+		{
+			for (int i=0; i<d.length; i++)
+			{	
+				System.out.print(i+1);
+				System.out.print(")\n	 Constructor Name: ");
+				String constructorName = d[i].getName();
+				System.out.println (constructorName);
+
+				//parameters
+				temp=d[i].getParameterTypes();
+				System.out.print("		parameter types: ");
+				printArray(temp);
+	
+				//modifiers
+				int modifiers= d[i].getModifiers();
+				System.out.print("		Modifier: ");
+				String mods = Modifier.toString(modifiers);
+				System.out.println(mods);
+			}
+		}
 	}
 	
 	public Object getvalue(Field a, Class b)
@@ -165,37 +178,10 @@ public class Inspector
 		
 	}
 	
-	public void analizeConstructor(Constructor[] a)
+	public void analizeConstructor()
 	{
 		Class[] temp;
-		System.out.println("Constructors");	
-		if(a.length==0)
-		{
-			System.out.println("		none");
-		}
-		else
-		{
-			for (int i=0; i<a.length; i++)
-			{	
-				System.out.print(i+1);
-				System.out.print(")\n	 Constructor Name: ");
-				String constructorName = a[i].getName();
-				System.out.println (constructorName);
 
-				//parameters
-				temp=a[i].getParameterTypes();
-				System.out.print("		parameter types: ");
-				printArray(temp);
-	
-				//modifiers
-				int modifiers= a[i].getModifiers();
-				System.out.print("		Modifier: ");
-				String mods = Modifier.toString(modifiers);
-				System.out.println(mods);
-				//Laura this needs more work
-				//it's currently giving an integer, the int needs to be decoded and analized
-			}
-		}
 		return;
 	}
 		
