@@ -17,7 +17,7 @@ public class Inspector
 		//name of immediate superclass
 		Class superClassName=className.getSuperclass();
 		System.out.print ("Super Class name: ");
-		output(superClassName);//Laura it is not printing the right thing, it says "java.lang.object"
+		output(superClassName);
 		System.out.println("");
 		
 		Class[] interfaces = className.getInterfaces();
@@ -36,7 +36,8 @@ public class Inspector
 		Field[] fields= className.getDeclaredFields();
 		analizeFields(fields, className);
 		
-		if (superClassName!=null)
+		//traverse the class hierarchy 
+		if (recursive==true && (superClassName!=null&&superClassName.getName()!="java.lang.Object"))
 		{
 			try
 			{
@@ -104,7 +105,9 @@ public class Inspector
 				output(whatIsReturned);
 				//modifiers
 				int modifiers= a[i].getModifiers();
-				//Laura this needs more work
+				System.out.print("		Modifier: ");
+				String mods = Modifier.toString(modifiers);
+				System.out.println(mods);
 				//it's currently giving an integer, the int needs to be decoded and analized
 			}
 		}
@@ -132,9 +135,14 @@ public class Inspector
 				output(fieldType);
 				//value
 				Object value=getvalue(a[i],b);
+				System.out.print("		Field value: ");
+				String fieldValName=String.valueOf(value);
+				System.out.println(fieldValName);
 				//modifiers	
-				int mods=a[i].getModifiers();
-				//Laura this also needs more work.
+				int modifiers=a[i].getModifiers();
+				System.out.print("		Modifier: ");
+				String mods = Modifier.toString(modifiers);
+				System.out.println(mods);
 			}
 		}
 		return;
@@ -157,7 +165,7 @@ public class Inspector
 		
 	}
 	
-		public void analizeConstructor(Constructor[] a)
+	public void analizeConstructor(Constructor[] a)
 	{
 		Class[] temp;
 		System.out.println("Constructors");	
@@ -181,13 +189,16 @@ public class Inspector
 	
 				//modifiers
 				int modifiers= a[i].getModifiers();
+				System.out.print("		Modifier: ");
+				String mods = Modifier.toString(modifiers);
+				System.out.println(mods);
 				//Laura this needs more work
 				//it's currently giving an integer, the int needs to be decoded and analized
 			}
 		}
 		return;
 	}
-	
+		
 	public void printArray (Class[] a)
 	{
 		if(a.length==0)
