@@ -32,9 +32,9 @@ public class Inspector
 		//fileds the class declares
 		Field[] fields= className.getDeclaredFields();
 		
-		Analize(interfaces,methodArray, construct, fields, className);
+		Analize(interfaces,methodArray, construct, fields, className, recursive);
 		//traverse the class hierarchy 
-		if (recursive==true && (superClassName!=null&&superClassName.getName()!="java.lang.Object"))
+		/*if (recursive==true && (superClassName!=null&&superClassName.getName()!="java.lang.Object"))
 		{
 			try
 			{
@@ -46,12 +46,12 @@ public class Inspector
 				e.printStackTrace();
 				return;
 			}			
-		}
+		}*/
 			
 
 	}
 
-	public void Analize(Class[] a, Method[] b, Constructor[] d, Field[] c, Class e)
+	public void Analize(Class[] a, Method[] b, Constructor[] d, Field[] c, Class e, boolean recursive)
 	{
 		Class[] temp;
 		System.out.println("Interfacess");	
@@ -100,10 +100,10 @@ public class Inspector
 				System.out.print("		Modifier: ");
 				String mods = Modifier.toString(modifiers);
 				System.out.println(mods);
-				//it's currently giving an integer, the int needs to be decoded and analized
 			}
 		}
-
+		
+		//fields
 		System.out.println("Fields");
 		if(c.length==0)
 		{
@@ -131,6 +131,14 @@ public class Inspector
 				System.out.print("		Modifier: ");
 				String mods = Modifier.toString(modifiers);
 				System.out.println(mods);
+				if(recursive==true)
+				{
+					if(value.getClass()!=null)
+					{
+						Class newClass=value.getClass();
+						inspect(newClass, recursive);
+					}
+				}
 			}
 		}
 		System.out.println("Constructors");	
@@ -161,6 +169,7 @@ public class Inspector
 		}
 	}
 	
+	//gets value of fields
 	public Object getvalue(Field a, Class b)
 	{
 		Object result=null;
@@ -178,12 +187,6 @@ public class Inspector
 		
 	}
 	
-	public void analizeConstructor()
-	{
-		Class[] temp;
-
-		return;
-	}
 		
 	public void printArray (Class[] a)
 	{
